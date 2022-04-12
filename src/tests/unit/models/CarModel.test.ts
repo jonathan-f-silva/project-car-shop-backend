@@ -14,28 +14,24 @@ const carMock: Car = {
   doorsQty: 4,
 };
 
+const carMockResult = { ...carMock, _id: '123' }
+
 describe('CarModel', () => {
   const carModel = new CarModel() as any;
     
   describe('#create()', () => {
     before(() => {
-      Sinon.stub(carModel.model, 'create').resolves({ ...carMock, _id: '123' });
+      Sinon.stub(carModel.model, 'create').resolves(carMockResult);
     });
   
     after(() => {
       Sinon.restore();
     })
-    
+
     it('cria um novo carro com os dados passados e id', async () => {
       const car = await carModel.create(carMock);
 
-      expect(car).to.have.property('_id');
-      expect(car).to.have.property('model', carMock.model);
-      expect(car).to.have.property('year', carMock.year);
-      expect(car).to.have.property('color', carMock.color);
-      expect(car).to.have.property('buyValue', carMock.buyValue);
-      expect(car).to.have.property('seatsQty', carMock.seatsQty);
-      expect(car).to.have.property('doorsQty', carMock.doorsQty);
+      expect(car).to.be.deep.equal(carMockResult);
     });
   });
 });
