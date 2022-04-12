@@ -1,6 +1,6 @@
 import { expect } from 'chai';
+import Sinon from 'sinon';
 
-import connectToDatabase from '../../../connection';
 import { Car } from '../../../interfaces/CarInterface';
 import CarModel from '../../../models/CarModel';
 
@@ -15,10 +15,18 @@ const carMock: Car = {
 };
 
 describe('CarModel', () => {
-  const carModel = new CarModel();
+  const carModel = new CarModel() as any;
+    
   describe('#create()', () => {
+    before(() => {
+      Sinon.stub(carModel.model, 'create').resolves({ ...carMock, _id: '123' });
+    });
+  
+    after(() => {
+      Sinon.restore();
+    })
+    
     it('cria um novo carro com os dados passados e id', async () => {
-      await connectToDatabase();
       const car = await carModel.create(carMock);
 
       expect(car).to.have.property('_id');
