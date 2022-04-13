@@ -57,56 +57,114 @@ describe('MongoModel', () => {
   });
 
   describe('#readOne()', () => {
-    before(() => {
-      Sinon.stub(testModel.model, 'findOne').resolves(testMockResult);
+    describe('ao passar um id de documento existente', () => {
+      before(() => {
+        Sinon.stub(testModel.model, 'findOne').resolves(testMockResult);
+      });
+    
+      after(() => {
+        Sinon.restore();
+      })
+
+      it('retorna o documento referenciado pela id', async () => {
+        const { _id } = testMockResult;
+        const test = await testModel.readOne(_id);
+
+        expect(testModel.model.findOne.calledWith({ _id })).to.be.true;
+        expect(test).to.be.deep.equal(testMockResult);
+      });
     });
-  
-    after(() => {
-      Sinon.restore();
-    })
 
-    it('retorna o documento referenciado pela id', async () => {
-      const { _id } = testMockResult;
-      const test = await testModel.readOne(_id);
+    describe('ao passar um id de documento inexistente', () => {
+      before(() => {
+        Sinon.stub(testModel.model, 'findOne').resolves(null);
+      });
+    
+      after(() => {
+        Sinon.restore();
+      })
 
-      expect(testModel.model.findOne.calledWith({ _id })).to.be.true;
-      expect(test).to.be.deep.equal(testMockResult);
+      it('retorna null', async () => {
+        const test = await testModel.readOne(99999);
+
+        expect(testModel.model.findOne.calledWith({ _id: 99999 })).to.be.true;
+        expect(test).to.be.deep.equal(null);
+      });
     });
   });
 
   describe('#update()', () => {
-    const updatedMockResult = { ...testMockResult, name: 'newName' };
+    describe('ao passar um id de documento existente', () => {
+      const updatedMockResult = { ...testMockResult, name: 'newName' };
+      
+      before(() => {
+        Sinon.stub(testModel.model, 'findByIdAndUpdate').resolves(updatedMockResult);
+      });
     
-    before(() => {
-      Sinon.stub(testModel.model, 'findByIdAndUpdate').resolves(updatedMockResult);
+      after(() => {
+        Sinon.restore();
+      })
+
+      it('retorna o documento atualizado referenciado pela id', async () => {
+        const { _id } = testMockResult;
+        const test = await testModel.update(_id, updatedMockResult);
+
+        expect(test).to.be.deep.equal(updatedMockResult);
+      });
     });
-  
-    after(() => {
-      Sinon.restore();
-    })
 
-    it('retorna o documento atualizado referenciado pela id', async () => {
-      const { _id } = testMockResult;
-      const test = await testModel.update(_id, updatedMockResult);
+    describe('ao passar um id de documento inexistente', () => {
+      const updatedMockResult = { ...testMockResult, _id: 99999, name: 'newName' };
+      
+      before(() => {
+        Sinon.stub(testModel.model, 'findByIdAndUpdate').resolves(null);
+      });
+    
+      after(() => {
+        Sinon.restore();
+      })
 
-      expect(test).to.be.deep.equal(updatedMockResult);
+      it('retorna null', async () => {
+        const { _id } = updatedMockResult;
+        const test = await testModel.update(_id, updatedMockResult);
+
+        expect(test).to.be.deep.equal(null);
+      });
     });
   });
 
   describe('#delete()', () => {
-    before(() => {
-      Sinon.stub(testModel.model, 'findByIdAndDelete').resolves(testMockResult);
+    describe('ao passar um id de documento existente', () => {
+      before(() => {
+        Sinon.stub(testModel.model, 'findByIdAndDelete').resolves(testMockResult);
+      });
+    
+      after(() => {
+        Sinon.restore();
+      })
+
+      it('retorna o documento removido referenciado pela id', async () => {
+        const { _id } = testMockResult;
+        const test = await testModel.delete(_id);
+
+        expect(test).to.be.deep.equal(testMockResult);
+      });
     });
-  
-    after(() => {
-      Sinon.restore();
-    })
 
-    it('retorna o documento atualizado referenciado pela id', async () => {
-      const { _id } = testMockResult;
-      const test = await testModel.delete(_id);
+    describe('ao passar um id de documento inexistente', () => {
+      before(() => {
+        Sinon.stub(testModel.model, 'findByIdAndDelete').resolves(null);
+      });
+    
+      after(() => {
+        Sinon.restore();
+      })
 
-      expect(test).to.be.deep.equal(testMockResult);
+      it('retorna null', async () => {
+        const test = await testModel.delete(99999);
+
+        expect(test).to.be.deep.equal(null);
+      });
     });
   });
 });
