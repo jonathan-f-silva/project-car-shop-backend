@@ -39,4 +39,21 @@ describe('MongoModel', () => {
       expect(test).to.be.deep.equal(testMockResult);
     });
   });
+
+  describe('#read()', () => {
+    before(() => {
+      Sinon.stub(testModel.model, 'find').resolves([testMockResult]);
+    });
+  
+    after(() => {
+      Sinon.restore();
+    })
+
+    it('retorna um array com todos os documentos', async () => {
+      const test = await testModel.read();
+
+      expect(test).to.be.deep.equal([testMockResult]);
+    });
+  });
+
 });
