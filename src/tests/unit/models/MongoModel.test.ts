@@ -73,4 +73,23 @@ describe('MongoModel', () => {
       expect(test).to.be.deep.equal(testMockResult);
     });
   });
+
+  describe('#update()', () => {
+    const updatedMockResult = { ...testMockResult, name: 'newName' };
+    
+    before(() => {
+      Sinon.stub(testModel.model, 'findByIdAndUpdate').resolves(updatedMockResult);
+    });
+  
+    after(() => {
+      Sinon.restore();
+    })
+
+    it('retorna o documento atualizado referenciado pela id', async () => {
+      const { _id } = testMockResult;
+      const test = await testModel.update(_id, updatedMockResult);
+
+      expect(test).to.be.deep.equal(updatedMockResult);
+    });
+  });
 });
