@@ -1,27 +1,9 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
-
-import { Schema, model as createModel, Document } from 'mongoose';
-
-import MongoModel from '../../../models/MongoModel';
-
-type TestType = { name: string; };
-
-interface TestDocument extends TestType, Document { }
-
-const testSchema = new Schema<TestDocument>({ name: String });
-
-class TestModel extends MongoModel<TestType> {
-  constructor(model = createModel('TestModel', testSchema)) {
-    super(model);
-  }
-}
-
-const testMock: TestType = {  name: 'test' };
-const testMockResult = { ...testMock, _id: '123' }
+import { testMock, testMockResult, TestMongoModel } from '../../mocks/TestMocks';
 
 describe('MongoModel', () => {
-  const testModel = new TestModel() as any;
+  const testModel = new TestMongoModel() as any;
     
   describe('#create()', () => {
     before(() => {
