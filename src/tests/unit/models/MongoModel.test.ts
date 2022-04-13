@@ -56,4 +56,21 @@ describe('MongoModel', () => {
     });
   });
 
+  describe('#readOne()', () => {
+    before(() => {
+      Sinon.stub(testModel.model, 'findOne').resolves(testMockResult);
+    });
+  
+    after(() => {
+      Sinon.restore();
+    })
+
+    it('retorna o documento referenciado pela id', async () => {
+      const { _id } = testMockResult;
+      const test = await testModel.readOne(_id);
+
+      expect(testModel.model.findOne.calledWith({ _id })).to.be.true;
+      expect(test).to.be.deep.equal(testMockResult);
+    });
+  });
 });
