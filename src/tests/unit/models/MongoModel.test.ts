@@ -92,4 +92,21 @@ describe('MongoModel', () => {
       expect(test).to.be.deep.equal(updatedMockResult);
     });
   });
+
+  describe('#delete()', () => {
+    before(() => {
+      Sinon.stub(testModel.model, 'findByIdAndDelete').resolves(testMockResult);
+    });
+  
+    after(() => {
+      Sinon.restore();
+    })
+
+    it('retorna o documento atualizado referenciado pela id', async () => {
+      const { _id } = testMockResult;
+      const test = await testModel.delete(_id);
+
+      expect(test).to.be.deep.equal(testMockResult);
+    });
+  });
 });
