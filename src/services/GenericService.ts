@@ -2,7 +2,7 @@ import { Model } from '../interfaces/ModelInterface';
 import { Service } from '../interfaces/ServiceInterface';
 
 export default class GenericService<T> implements Service<T> {
-  constructor(private model: Model<T>) { }
+  constructor(protected model: Model<T>) { }
 
   create = async (item: T): Promise<T> => this.model.create(item);
 
