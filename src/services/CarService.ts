@@ -8,30 +8,34 @@ export default class CarService extends GenericService<Car> {
     super(model);
   }
 
-  create = (car: Car) => {
+  create = async (car: Car) => {
     const parsedCar = CarSchema.safeParse(car);
-    if (!parsedCar.success) throw parsedCar.error;
+    if (!parsedCar.success) {
+      return { code: 400, error: parsedCar.error.toString() };
+    }
     return this.model.create(parsedCar.data);
   };
 
   readOne = async (id: string) => {
     const car = await this.model.readOne(id);
-    if (car === null) throw new Error(ErrorMessages.CAR_NOT_FOUND);
+    if (car === null) return { code: 400, error: ErrorMessages.CAR_NOT_FOUND };
     return car;
   };
 
   update = async (id: string, car: Car) => {
     const parsedCar = CarSchema.safeParse(car);
-    if (!parsedCar.success) throw parsedCar.error;
+    if (!parsedCar.success) {
+      return { code: 400, error: parsedCar.error.toString() };
+    }
 
     const updatedCar = await this.model.update(id, parsedCar.data);
-    if (!updatedCar) throw new Error(ErrorMessages.CAR_NOT_FOUND);
+    if (!updatedCar) return { code: 400, error: ErrorMessages.CAR_NOT_FOUND };
     return updatedCar;
   };
 
   delete = async (id: string) => {
     const deletedCar = await this.model.delete(id);
-    if (!deletedCar) throw new Error(ErrorMessages.CAR_NOT_FOUND);
+    if (!deletedCar) return { code: 400, error: ErrorMessages.CAR_NOT_FOUND };
     return deletedCar;
   };
 }

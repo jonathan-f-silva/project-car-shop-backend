@@ -10,7 +10,7 @@ export interface TestDocument extends TestType, Document { }
 
 export const testSchema = new Schema<TestDocument>({ name: String });
 
-const notFoundError = new Error('Item Not found');
+export const notFoundError = { code: 400, error: 'Item not found' };
 
 export class TestMongoModel extends MongoModel<TestType> {
   constructor(model = createModel('TestModel', testSchema)) {
@@ -25,19 +25,19 @@ export class TestGenericService extends GenericService<TestType> {
 
   readOne = async (id: string) => {
     const item = await this.model.readOne(id);
-    if (!item) throw notFoundError;
+    if (!item) return notFoundError;
     return item;
   }
 
   update = async (id: string, item: TestType) => {
     const updatedItem = await this.model.update(id, item);
-    if (!updatedItem) throw notFoundError;
+    if (!updatedItem) return notFoundError;
     return updatedItem;
   };
 
   delete = async (id: string) => {
     const deletedItem = await this.model.delete(id);
-    if (!deletedItem) throw notFoundError;
+    if (!deletedItem) return notFoundError;
     return deletedItem;
   }
 } 
