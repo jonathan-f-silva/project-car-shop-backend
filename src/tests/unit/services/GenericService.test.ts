@@ -1,6 +1,12 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
-import { TestGenericService, testMock, testMockResult, TestMongoModel } from '../../mocks/TestMocks';
+import { 
+  TestGenericService,
+  testMockResult,
+  TestMongoModel,
+  testMock,
+  notFoundError,
+} from '../../mocks/TestMocks';
 
 describe('GenericService', () => {
   const testModel = new TestMongoModel() as any;
@@ -66,11 +72,10 @@ describe('GenericService', () => {
         Sinon.restore();
       })
 
-      it('retorna null', async () => {
-        const test = await testService.readOne(99999);
+      it('retorna o erro "Item not found"', async () => {
+        const result = await testService.readOne(99999);
 
-        expect(testModel.model.findOne.calledWith({ _id: 99999 })).to.be.true;
-        expect(test).to.be.deep.equal(null);
+        expect(result).to.be.deep.equal(notFoundError);
       });
     });
   });
@@ -106,11 +111,11 @@ describe('GenericService', () => {
         Sinon.restore();
       })
 
-      it('retorna null', async () => {
+      it('retorna o erro "Item not found"', async () => {
         const { _id } = updatedMockResult;
-        const test = await testService.update(_id, updatedMockResult);
+        const result = await testService.update(_id, updatedMockResult);
 
-        expect(test).to.be.deep.equal(null);
+        expect(result).to.be.deep.equal(notFoundError);
       });
     });
   });
@@ -142,10 +147,10 @@ describe('GenericService', () => {
         Sinon.restore();
       })
 
-      it('retorna null', async () => {
-        const test = await testModel.delete(99999);
-
-        expect(test).to.be.deep.equal(null);
+      it('retorna o erro "Item not found"', async () => {
+        const result = await testService.delete(99999);
+        
+        expect(result).to.be.deep.equal(notFoundError);
       });
     });
   });
