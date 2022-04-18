@@ -16,7 +16,7 @@ export default class CarService extends GenericService<Car> {
     if (!parsedCar.success) {
       return { code: 400, error: parsedCar.error.toString() };
     }
-    return this.model.create(parsedCar.data);
+    return this.model.create(car);
   };
 
   readOne = async (id: string) => {
