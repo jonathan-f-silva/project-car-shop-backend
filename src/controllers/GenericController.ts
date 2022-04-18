@@ -49,6 +49,6 @@ export default class GenericController<T> {
     if (isError(item)) {
       const { code, error } = item;
       return res.status(code).send({ error });
-    } return res.json(item);
+    } return res.status(204).end();
   };
 }
