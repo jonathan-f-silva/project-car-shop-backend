@@ -19,7 +19,7 @@ export default class GenericController<T> {
       const { code, error } = item;
       return res.status(code).send({ error });
     }
-    return res.send(item);
+    return res.status(201).send(item);
   };
 
   read = async (_req: Request, res: Response) => {
@@ -34,5 +34,21 @@ export default class GenericController<T> {
       return res.status(code).send({ error });
     }
     return res.json(item);
+  };
+
+  update = async (req: Request, res: Response) => {
+    const item = await this.service.update(req.params.id, req.body);
+    if (isError(item)) {
+      const { code, error } = item;
+      return res.status(code).send({ error });
+    } return res.json(item);
+  };
+
+  delete = async (req: Request, res: Response) => {
+    const item = await this.service.delete(req.params.id);
+    if (isError(item)) {
+      const { code, error } = item;
+      return res.status(code).send({ error });
+    } return res.json(item);
   };
 }
