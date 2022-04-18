@@ -5,6 +5,13 @@ import { Service } from '../interfaces/ServiceInterface';
 export default abstract class GenericService<T> implements Service<T> {
   constructor(protected model: Model<T>) { }
 
+  static checkId(id: string): TypeOrError<string> {
+    if (id.length < 24) {
+      return { code: 400, error: 'Id must have 24 hexadecimal characters' };
+    }
+    return id;
+  }
+
   create = async (item: T): Promise<TypeOrError<T>> =>
     this.model.create(item);
 
