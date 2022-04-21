@@ -4,7 +4,6 @@
 // https://github.com/Automattic/mongoose/issues/10046#issuecomment-811194721
 
 import {
-  Model as M,
   model as createModel,
   Schema,
   SchemaDefinition,
@@ -13,28 +12,23 @@ import {
 import { Model } from '../interfaces/ModelInterface';
 
 export default class MongoModel<T> implements Model<T> {
-  protected schema: Schema<T>;
-
-  protected model: M<T>;
-
   constructor(
-    mongoCollectionName: string,
-    mongoSchemaDefinition: SchemaDefinition<SchemaDefinitionType<T>>,
-  ) {
-    this.schema = new Schema<T>(mongoSchemaDefinition);
-    this.model = createModel<T>(mongoCollectionName, this.schema);
-  }
+    public collection: string,
+    public mongoSchemaDefinition: SchemaDefinition<SchemaDefinitionType<T>>,
+    public schema = new Schema<T>(mongoSchemaDefinition),
+    public dao = createModel<T>(collection, schema),
+  ) { }
 
-  create = async (obj: T): Promise<T> => this.model.create(obj);
+  create = async (obj: T): Promise<T> => this.dao.create(obj);
 
-  read = async (): Promise<T[]> => this.model.find();
+  read = async (): Promise<T[]> => this.dao.find();
 
   readOne = async (id: string): Promise<T | null> =>
-    this.model.findOne({ _id: id });
+    this.dao.findOne({ _id: id });
 
   update = async (id: string, obj: T): Promise<T | null> =>
-    this.model.findByIdAndUpdate(id, obj, { new: true });
+    this.dao.findByIdAndUpdate(id, obj, { new: true });
 
   delete = async (id: string): Promise<T | null> =>
-    this.model.findByIdAndDelete(id);
+    this.dao.findByIdAndDelete(id);
 }
