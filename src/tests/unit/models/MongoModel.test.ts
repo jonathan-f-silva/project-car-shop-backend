@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import MongoModel from '../../../models/MongoModel';
+
+import { testModel } from '../../mocks/TestMocks';
 
 describe('MongoModel', () => {
   beforeEach(sinon.restore);
-
-  const testModel = new MongoModel('', {});
 
   describe('#create()', () => {
     it('gera erro caso a DB gere erro', async () => {
