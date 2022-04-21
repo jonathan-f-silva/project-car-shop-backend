@@ -1,9 +1,9 @@
-import { TypeOrError } from './ErrorInterface';
+import { ResponseInterface } from './ResponseInterface';
 
 export interface Service<T> {
-  create: (data: T) => Promise<TypeOrError<T>>;
+  create: (data: T) => Promise<ResponseInterface>;
   read: () => Promise<T[]>;
-  readOne: (id: string) => Promise<TypeOrError<T>>;
-  update: (id: string, data: T) => Promise<TypeOrError<T>>;
-  delete: (id: string) => Promise<TypeOrError<T>>;
+  readOne: (id: string) => Promise<ResponseInterface>;
+  update: (id: string, data: T) => Promise<ResponseInterface>;
+  delete: (id: string) => Promise<ResponseInterface>;
 }
