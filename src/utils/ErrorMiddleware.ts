@@ -10,7 +10,7 @@ const ErrorMiddleware = (
 ) => {
   if (err instanceof ExpressError) {
     const { code, message } = err;
-    res.status(code).send({ message }).end();
+    res.status(code).send({ error: message }).end();
   } else if (err) {
     res.status(500).send({ message: ErrorMessage.SERVER_ERROR }).end();
   } else {
