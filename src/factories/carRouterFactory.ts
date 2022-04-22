@@ -13,8 +13,8 @@ function makeCarRouter(route = '/cars', tableName = 'Car'): Router {
   const model = new MongoModel<Car>(tableName, schema as MongoSchema<Car>);
   const service = new Service<Car>(model);
   const controller = new Controller<Car>(service, CarZodSchema);
-
   const expressRouter = new ExpressRouter<Car>(route, controller);
+
   return expressRouter.router;
 }
 
