@@ -50,10 +50,13 @@ describe('Service', () => {
       catch (error) { expect(error).to.be.an('Error') }
     });
 
-    it('retorna null caso o model não tenha o documento', async () => {
+    it('gera erro caso o model não tenha o documento', async () => {
       sinon.stub(testModel, 'readOne').resolves(null);
-      const test = await testService.readOne('1');
-      expect(test).to.be.equal(null);
+      try {
+        await testService.readOne('1');
+        expect('não gerou erro').to.be.false;
+      }
+      catch (error) { expect(error).to.be.an('Error') }
     });
 
     it('retorna o documento na DB', async () => {
@@ -75,8 +78,11 @@ describe('Service', () => {
 
     it('retorna null caso o model não tenha o documento', async () => {
       sinon.stub(testModel, 'update').resolves(null);
-      const test = await testService.update('1', {});
-      expect(test).to.be.equal(null);
+      try {
+        await testService.update('1', {});
+        expect('não gerou erro').to.be.false;
+      }
+      catch (error) { expect(error).to.be.an('Error') }
     });
 
     it('retorna o documento atualizado da DB', async () => {
@@ -98,8 +104,11 @@ describe('Service', () => {
 
     it('retorna null caso o model não tenha o documento', async () => {
       sinon.stub(testModel, 'delete').resolves(null);
-      const test = await testService.delete('1');
-      expect(test).to.be.equal(null);
+      try {
+        await testService.delete('1');
+        expect('não gerou erro').to.be.false;
+      }
+      catch (error) { expect(error).to.be.an('Error') }
     });
 
     it('retorna o documento removido da DB', async () => {

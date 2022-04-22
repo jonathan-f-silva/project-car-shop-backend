@@ -3,6 +3,8 @@ import sinon from 'sinon';
 
 import { testController, testService } from '../../mocks/TestMocks';
 
+const validID = '62620d6c9162997790a96412';
+
 describe('Controller', () => {
   beforeEach(sinon.restore);
 
@@ -44,21 +46,15 @@ describe('Controller', () => {
     it('gera erro caso o service gere erro', async () => {
       sinon.stub(testService, 'readOne').rejects();
       try {
-        await testController.readOne('1');
+        await testController.readOne(validID);
         expect('não gerou erro').to.be.false;
       }
       catch (error) { expect(error).to.be.an('Error') }
     });
 
-    it('retorna null caso o service não tenha o documento', async () => {
-      sinon.stub(testService, 'readOne').resolves(null);
-      const test = await testController.readOne('1');
-      expect(test).to.be.equal(null);
-    });
-
     it('retorna o documento na DB', async () => {
       sinon.stub(testService, 'readOne').resolves({} as any);
-      const test = await testController.readOne('1');
+      const test = await testController.readOne(validID);
       expect(test).to.be.deep.equal({});
     });
   });
@@ -67,21 +63,15 @@ describe('Controller', () => {
     it('gera erro caso o service gere erro', async () => {
       sinon.stub(testService, 'update').rejects();
       try {
-        await testController.update('1', {});
+        await testController.update(validID, {});
         expect('não gerou erro').to.be.false;
       }
       catch (error) { expect(error).to.be.an('Error') }
     });
 
-    it('retorna null caso o service não tenha o documento', async () => {
-      sinon.stub(testService, 'update').resolves(null);
-      const test = await testController.update('1', {});
-      expect(test).to.be.equal(null);
-    });
-
     it('retorna o documento atualizado da DB', async () => {
       sinon.stub(testService, 'update').resolves({} as any);
-      const test = await testController.update('1', {});
+      const test = await testController.update(validID, {});
       expect(test).to.be.deep.equal({});
     });
   });
@@ -90,21 +80,16 @@ describe('Controller', () => {
     it('gera erro caso o service gere erro', async () => {
       sinon.stub(testService, 'delete').rejects();
       try {
-        await testController.delete('1');
+        await testController.delete(validID);
         expect('não gerou erro').to.be.false;
       }
       catch (error) { expect(error).to.be.an('Error') }
     });
 
-    it('retorna null caso o service não tenha o documento', async () => {
-      sinon.stub(testService, 'delete').resolves(null);
-      const test = await testController.delete('1');
-      expect(test).to.be.equal(null);
-    });
 
     it('retorna o documento removido da DB', async () => {
       sinon.stub(testService, 'delete').resolves({} as any);
-      const test = await testController.delete('1');
+      const test = await testController.delete(validID);
       expect(test).to.be.deep.equal({});
     });
   });
