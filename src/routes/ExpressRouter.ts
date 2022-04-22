@@ -33,8 +33,8 @@ export default class ExpressRouter<T> {
   };
 
   private delete = async (req: Request, res: Response) => {
-    const result = await this.controller.delete(req.params.id);
-    res.send(result);
+    await this.controller.delete(req.params.id);
+    res.sendStatus(204);
   };
 
   public setupRoutes() {

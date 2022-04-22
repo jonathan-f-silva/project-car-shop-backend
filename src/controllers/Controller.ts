@@ -1,5 +1,5 @@
 import { ZodSchema } from 'zod';
-import ParamsSchema from '../interfaces/ParamsSchema';
+import IdSchema from '../interfaces/IdSchema';
 import GenericService from '../services/Service';
 import ErrorMessage from '../utils/ErrorMessage';
 import ValidationError from '../utils/ValidationError';
@@ -19,13 +19,13 @@ export default class Controller<T> {
   read = async (): Promise<T[]> => this.service.read();
 
   readOne = async (id: string): Promise<T | null> => {
-    const { success: idOkay } = ParamsSchema.safeParse(id);
+    const { success: idOkay } = IdSchema.safeParse(id);
     if (!idOkay) throw new ValidationError(ErrorMessage.ID_ERROR);
     return this.service.readOne(id);
   };
 
   update = async (id: string, data: T): Promise<T | null> => {
-    const { success: idOkay } = ParamsSchema.safeParse(id);
+    const { success: idOkay } = IdSchema.safeParse(id);
     if (!idOkay) throw new ValidationError(ErrorMessage.ID_ERROR);
     const { success } = this.validator.safeParse(data);
     if (!success) throw new ValidationError();
@@ -33,7 +33,7 @@ export default class Controller<T> {
   };
 
   delete = async (id: string): Promise<T | null> => {
-    const { success: idOkay } = ParamsSchema.safeParse(id);
+    const { success: idOkay } = IdSchema.safeParse(id);
     if (!idOkay) throw new ValidationError(ErrorMessage.ID_ERROR);
     return this.service.delete(id);
   };
