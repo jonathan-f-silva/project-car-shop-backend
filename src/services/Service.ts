@@ -5,13 +5,14 @@ export default class Service<T> {
     protected model: Model<T>,
   ) { }
 
-  create = async (data: T) => this.model.create(data);
+  create = async (data: T): Promise<T> => this.model.create(data);
 
-  read = async () => this.model.read();
+  read = async (): Promise<T[]> => this.model.read();
 
-  readOne = async (id: string) => this.model.readOne(id);
+  readOne = async (id: string): Promise<T | null> => this.model.readOne(id);
 
-  update = async (id: string, data: T) => this.model.update(id, data);
+  update = async (id: string, data: T): Promise<T | null> =>
+    this.model.update(id, data);
 
-  delete = async (id: string) => this.model.delete(id);
+  delete = async (id: string): Promise<T | null> => this.model.delete(id);
 }
