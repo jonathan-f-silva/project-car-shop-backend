@@ -12,36 +12,36 @@ export default class ExpressRouter<T> {
     this.setupRoutes();
   }
 
-  // private async create(req: Request, res: Response) {
-  //   const result = await this.controller.create(req.body);
-  //   res.status(201).send(result);
-  // }
+  private create = async (req: Request, res: Response) => {
+    const result = await this.controller.create(req.body);
+    res.status(201).send(result);
+  };
 
   private read = async (_req: Request, res: Response) => {
     const result = await this.controller.read();
     res.send(result);
   };
 
-  // private async readOne(req: Request, res: Response) {
-  //   const result = await this.controller.readOne(req.params);
-  //   res.send(result);
-  // }
+  private readOne = async (req: Request, res: Response) => {
+    const result = await this.controller.readOne(req.params.id);
+    res.send(result);
+  };
 
-  // private async update(req: Request, res: Response) {
-  //   const result = await this.controller.read();
-  //   res.send(result);
-  // }
+  private update = async (req: Request, res: Response) => {
+    const result = await this.controller.update(req.params.id, req.body);
+    res.send(result);
+  };
 
-  // private async delete(req: Request, res: Response) {
-  //   const result = await this.controller.read();
-  //   res.send(result);
-  // }
+  private delete = async (req: Request, res: Response) => {
+    const result = await this.controller.delete(req.params.id);
+    res.send(result);
+  };
 
   public setupRoutes() {
-    // this.router.post(route, this.create);
+    this.router.post(this.route, this.create);
     this.router.get(this.route, this.read);
-    // this.router.get(`${route}/:id`, this.readOne);
-    // this.router.put(`${route}/:id`, this.update);
-    // this.router.delete(`${route}/:id`, this.delete);
+    this.router.get(`${this.route}/:id`, this.readOne);
+    this.router.put(`${this.route}/:id`, this.update);
+    this.router.delete(`${this.route}/:id`, this.delete);
   }
 }
