@@ -1,17 +1,16 @@
-import { Schema } from 'mongoose';
 import { z } from 'zod';
 import { VehicleSchema } from './VehicleInterface';
 
 export type Car = z.infer<typeof CarZodSchema>;
 
-export const CarMongoSchema = new Schema({
+export const CarMongoSchema = {
   model: String,
   year: Number,
   color: String,
   buyValue: Number,
   doorsQty: Number,
   seatsQty: Number,
-}, { versionKey: false });
+};
 
 // https://github.com/colinhacks/zod#extend
 export const CarZodSchema = VehicleSchema.extend({

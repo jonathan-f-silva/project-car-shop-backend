@@ -15,7 +15,7 @@ export default class MongoModel<T> implements Model<T> {
   constructor(
     public collection: string,
     public mongoSchemaDefinition: SchemaDefinition<SchemaDefinitionType<T>>,
-    public schema = new Schema<T>(mongoSchemaDefinition),
+    public schema = new Schema<T>(mongoSchemaDefinition, { versionKey: false }),
     public dao = createModel<T>(collection, schema),
   ) { }
 
