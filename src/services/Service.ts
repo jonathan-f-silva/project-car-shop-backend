@@ -1,4 +1,5 @@
 import { Model } from '../interfaces/ModelInterface';
+import NotFoundError from '../utils/NotFoundError';
 
 export default class Service<T> {
   constructor(
@@ -9,10 +10,21 @@ export default class Service<T> {
 
   read = async (): Promise<T[]> => this.model.read();
 
-  readOne = async (id: string): Promise<T | null> => this.model.readOne(id);
+  readOne = async (id: string): Promise<T> => {
+    const found = await this.model.readOne(id);
+    if (found === null) throw new NotFoundError();
+    return found;
+  };
 
-  update = async (id: string, data: T): Promise<T | null> =>
-    this.model.update(id, data);
+  update = async (id: string, data: T): Promise<T> => {
+    const updated = await this.model.update(id, data);
+    if (updated === null) throw new NotFoundError();
+    return updated;
+  };
 
-  delete = async (id: string): Promise<T | null> => this.model.delete(id);
+  delete = async (id: string): Promise<T> => {
+    const deleted = await this.model.delete(id);
+    if (deleted === null) throw new NotFoundError();
+    return deleted;
+  };
 }
