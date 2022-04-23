@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import Controller from '../../controllers/Controller';
 import MongoModel from '../../models/MongoModel';
 import ExpressRouter from '../../routes/ExpressRouter';

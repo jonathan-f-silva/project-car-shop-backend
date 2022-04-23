@@ -1,8 +1,3 @@
-import {
-  Document,
-  SchemaDefinition,
-  SchemaDefinitionType,
-} from 'mongoose';
+import { SchemaDefinition, SchemaDefinitionType } from 'mongoose';
 
-export type MongoSchema<T> =
-  SchemaDefinition<SchemaDefinitionType<T & Document>>;
+export type MongooseSchema<T> = SchemaDefinition<SchemaDefinitionType<T>>;
