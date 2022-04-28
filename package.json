@@ -4,6 +4,8 @@
   "description": "Backend para um app de cadastro de veículos",
   "main": "src/index.js",
   "scripts": {
+    "start": "node build/index.js",
+    "build": "npx tsc",
     "dev": "ts-node-dev src/index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "mocha -r ts-node/register src/tests/unit/**/*.test.ts --exit -t 60000",
