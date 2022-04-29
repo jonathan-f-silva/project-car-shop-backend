@@ -1,12 +1,15 @@
+import cors from 'cors';
 import express, { Router } from 'express';
 
 import connectToDatabase from './connection';
 
+const { HOSTNAME } = process.env;
 class App {
   public app: express.Application;
 
   constructor() {
     this.app = express();
+    this.app.use(cors());
     this.app.use(express.json());
   }
 
@@ -14,7 +17,7 @@ class App {
     connectToDatabase().then(() => {
       this.app.listen(
         PORT,
-        () => console.log(`Server running here 👉 http://localhost:${PORT}`),
+        () => console.log(`Server running here 👉 http://${HOSTNAME}:${PORT}`),
       );
     });
   }
