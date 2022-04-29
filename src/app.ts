@@ -3,7 +3,9 @@ import express, { Router } from 'express';
 
 import connectToDatabase from './connection';
 
-const { HOSTNAME } = process.env;
+const HOSTNAME = process.env.HOSTNAME || 'localhost';
+const PROTOCOL = process.env.USE_SSL === 'true' ? 'https' : 'http';
+
 class App {
   public app: express.Application;
 
@@ -17,7 +19,9 @@ class App {
     connectToDatabase().then(() => {
       this.app.listen(
         PORT,
-        () => console.log(`Server running here 👉 http://${HOSTNAME}:${PORT}`),
+        () => console.log(
+          `Backend running here 👉 ${PROTOCOL}://${HOSTNAME}:${PORT}`,
+        ),
       );
     });
   }
