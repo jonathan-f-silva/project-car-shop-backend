@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend para um app de cadastro de veículos",
   "main": "src/index.js",
+  "private": true,
   "scripts": {
     "start": "node build/index.js",
     "build": "npx tsc",
