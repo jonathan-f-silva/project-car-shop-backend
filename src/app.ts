@@ -3,9 +3,6 @@ import express, { Router } from 'express';
 
 import connectToDatabase from './connection';
 
-const HOSTNAME = process.env.HOSTNAME || 'localhost';
-const PROTOCOL = process.env.USE_SSL === 'true' ? 'https' : 'http';
-
 class App {
   public app: express.Application;
 
@@ -15,12 +12,12 @@ class App {
     this.app.use(express.json());
   }
 
-  public startServer(PORT: string | number = 3001): void {
+  public startServer(): void {
     connectToDatabase().then(() => {
       this.app.listen(
-        PORT,
+        8080,
         () => console.log(
-          `Backend running here 👉 ${PROTOCOL}://${HOSTNAME}:${PORT}`,
+          'Backend running on port 8080.',
         ),
       );
     });

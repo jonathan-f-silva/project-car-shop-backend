@@ -1,6 +1,6 @@
 FROM node:16-alpine
 
-EXPOSE 3001
+EXPOSE 8080
 
 WORKDIR /app
 
