@@ -7,6 +7,9 @@
   "scripts": {
     "start": "node build/index.js",
     "build": "tsc",
+    "docker:build": "./scripts/docker-build.sh",
+    "docker:run": "./scripts/docker-run.sh",
+    "docker:dev": "./scripts/docker-run.sh --dev",
     "dev": "ts-node-dev src/index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "mocha -r ts-node/register src/tests/unit/**/*.test.ts --exit -t 60000",
