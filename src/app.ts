@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { Router } from 'express';
 
 import connectToDatabase from './connection';
@@ -7,14 +8,17 @@ class App {
 
   constructor() {
     this.app = express();
+    this.app.use(cors());
     this.app.use(express.json());
   }
 
-  public startServer(PORT: string | number = 3001): void {
+  public startServer(): void {
     connectToDatabase().then(() => {
       this.app.listen(
-        PORT,
-        () => console.log(`Server running here 👉 http://localhost:${PORT}`),
+        8080,
+        () => console.log(
+          'Backend running on port 8080.',
+        ),
       );
     });
   }

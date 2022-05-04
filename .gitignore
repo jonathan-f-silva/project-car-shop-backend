@@ -2,3 +2,7 @@ build
 node_modules
 .nyc_output
 .vscode
+
+# stryker temp files
+.stryker-tmp
+reports

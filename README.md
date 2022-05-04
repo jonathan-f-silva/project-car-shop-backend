@@ -8,6 +8,24 @@ Um backend para cadastrar veículos. Projeto feito no módulo de backend do curs
 - POO, SOLID, CRUD
 
 
+## Rodando via Docker
+
+Construa a imagem
+
+```bash
+  npm run docker:build
+```
+
+Rode a imagem em modo de desenvolvimento
+
+```bash
+  npm run docker:run
+```
+
+Ou em modo de produção
+```bash
+  npm run docker:dev
+```
 ## Rodando localmente
 
 OBS: É preciso ter um servidor MongoDB rodando.
